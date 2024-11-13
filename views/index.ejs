@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Welcome to <%= siteData.siteName %></title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Welcome to <%= siteData.siteName %> </h1>
+    <p><a href="about">About </a></p>
+    <p><a href="api">Songs</a></p>
+    <p><a href="playlists">My playlists</a></p>
+    <% if (isLoggedIn) { %>
+      <p><a href="users/logout">Logout</a></p>
+    <% } else { %>
+      <p><a href="users/register">Register with us</a></p>
+      <p><a href="users/login">Login</a></p>
+    <% } %>
+  </body>
+</html>
