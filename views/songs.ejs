@@ -2,9 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= siteData.siteName %> Songs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track List</title>
+
 </head>
 <body>
-  <p>You will be redirected to the login page shortly.</p>
+  <h1>Track List</h1>
+  
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <form action="/api/search" method="GET">
+      <input type="text" name="query" placeholder="Search for a track...">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <!-- Track Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Track Name</th>
+        <th>Artist</th>
+        <th>Listeners</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tracks.forEach(function(track) { %>
+        <tr>
+          <td><%= track.name %></td>
+          <td><%= track.artist.artist %></td>
+          <td><%= track.listeners %></td>
+          <td>
+            <button class="add-to-playlist" data-id="<%= track.mbid %>">Add to Playlist</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <button onclick="window.location.href='/'">Go Back</button>
 </body>
 </html>
+
+
