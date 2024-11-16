@@ -1,48 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Track List</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial="1.0">
+    <title>Track List</title>
+    <link rel="stylesheet" type="text/css" href="/table.css" />
+  </head>
+  <body>
+    <h1>Track List</h1>
 
-</head>
-<body>
-  <h1>Track List</h1>
-  
-  <!-- Search Bar -->
-  <div class="search-bar">
-    <form action="/api/search" method="GET">
-      <input type="text" name="query" placeholder="Search for a track...">
+    <!-- Search Bar -->
+    <form method="GET" action="/api/search">
+      <input
+        type="text"
+        name="query"
+        placeholder="Search for song, artist, or album"
+      />
+      <select name="filter">
+        <option value="song">Song</option>
+        <option value="artist">Artist</option>
+      </select>
       <button type="submit">Search</button>
     </form>
-  </div>
 
-  <!-- Track Table -->
-  <table>
-    <thead>
-      <tr>
-        <th>Track Name</th>
-        <th>Artist</th>
-        <th>Listeners</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% tracks.forEach(function(track) { %>
+    <!-- Track Table -->
+    <table>
+      <thead>
         <tr>
-          <td><%= track.name %></td>
-          <td><%= track.artist.artist %></td>
-          <td><%= track.listeners %></td>
+          <th style="width: 200px">Album Cover</th>
+          <th style="width: 300px">Track Name</th>
+          <th style="width: 200px">Artist</th>
+          <th style="width: 400px">Preview</th>
+          <th style="width: 200px">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tracks.forEach(function(track) { %>
+        <tr>
+          <!-- Column for Album Cover -->
           <td>
-            <button class="add-to-playlist" data-id="<%= track.mbid %>">Add to Playlist</button>
+            <% if (track.albumCover) { %>
+            <img
+              src="<%= track.albumCover %>"
+              alt="Album Cover"
+              style="width: 50px; height: 50px"
+            />
+            <% } else { %>
+            <img
+              src="/placeholder.png"
+              alt="Placeholder Image"
+              style="width: 50px; height: 50px"
+            />
+            <% } %>
+          </td>
+
+          <!-- Track Name -->
+          <td><%= track.name %></td>
+
+          <!-- Artist -->
+          <td><%= track.artist.name %></td>
+          <!-- Column for Preview -->
+          <td>
+            <% if (track.preview) { %>
+            <audio controls>
+              <source src="<%= track.preview %>" type="audio/mpeg" />
+              <I>Your browser does not support the audio element.</I>
+            </audio>
+
+            <% } else { %>
+            <p>No preview available</p>
+            <% } %>
+          </td>
+
+          <!-- Add to Playlist Button -->
+          <td>
+            <!-- Button container using Flexbox -->
+            <div class="button-container">
+              <!-- Add to Playlist Button -->
+              <form method="GET" action="/add-to-playlist">
+                <input type="hidden" name="song_name" value="<%= track.name %>"> 
+                <input type="hidden" name="artist_name" value="<%= track.artist.name %>"> 
+                <button type="submit">Add to Playlist</button>
+              </form>
+          
+              <!-- Like Song Button -->
+              <form method="POST" action="/playlists/like_song">
+                <input type="hidden" name="song_name" value="<%= track.name %>"> 
+                <input type="hidden" name="artist_name" value="<%= track.artist.name %>">  
+                <button type="submit">Like Song</button>
+              </form>
+            </div>
           </td>
         </tr>
-      <% }); %>
-    </tbody>
-  </table>
+        <% }); %>
+      </tbody>
+    </table>
 
-  <button onclick="window.location.href='/'">Go Back</button>
-</body>
+    <button onclick="window.location.href='/'">Go Back</button>
+    <!-- Script to play one audio at a time -->
+    <script>
+      //Function from https://stackoverflow.com/questions/20719550/play-one-html-audio-element-at-a-time Stack Overflow
+      function onlyPlayOneIn(container) {
+        container.addEventListener(
+          "play",
+          function (event) {
+            audio_elements = container.getElementsByTagName("audio");
+            for (i = 0; i < audio_elements.length; i++) {
+              audio_element = audio_elements[i];
+              if (audio_element !== event.target) {
+                audio_element.pause();
+              }
+            }
+          },
+          true
+        );
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        onlyPlayOneIn(document.body);
+      });
+    </script>
+  </body>
 </html>
-
-

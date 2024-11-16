@@ -1,0 +1,121 @@
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Header Row Styles */
+th {
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Row Hover Effect */
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Row Highlight (currently playing) */
+.playing {
+  background-color: #e0f7fa;
+}
+
+/* Album Cover Image Styling */
+td img {
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+td img:hover {
+  transform: scale(1.1);
+}
+
+/* Audio Player Styling */
+audio {
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.button-container form {
+  display: inline-block; 
+}
+
+/* Flex container for buttons */
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Search Bar Styling */
+.search-bar {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-bar input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+}
+
+.search-bar button:hover {
+  background-color: #2980b9;
+}
+
+/* Go Back Button Styling */
+button.go-back {
+  background-color: #95a5a6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button.go-back:hover {
+  background-color: #7f8c8d;
+}

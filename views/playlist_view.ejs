@@ -1,0 +1,22 @@
+<h1><%= playlist.name %></h1>
+
+<% if (noSongs) { %>
+  <p>No songs added yet.</p>
+<% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>Song Name</th>
+        <th>Artist</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% playlist.songs.forEach(function(song) { %>
+        <tr>
+          <td><%= song.song_name %></td>
+          <td><%= song.artist %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>

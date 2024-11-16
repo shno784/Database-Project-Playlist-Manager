@@ -66,7 +66,7 @@ router.get("/login", function (req, res, next) {
 });
 
 router.post("/login", function (req, res, next) {
-  let sqlquery = "SELECT hashedpassword from users where username=(?)";
+  let sqlquery = "SELECT id, hashedpassword from users where username=(?)";
   const name = req.body.username;
   db.query(sqlquery, name, (err, result) => {
     if (err) {
@@ -76,12 +76,13 @@ router.post("/login", function (req, res, next) {
       return res.render("login", {message: {}, error: 'Incorrect username or password', data: req.body})
     } else {
       const hashedPassword = result[0].hashedpassword;
+      const userId = result[0].id;
       bcrypt.compare(req.body.password, hashedPassword, function (err, result) {
         if (err) {
           next(err);
         } else if (result == true) {
           // Save user session here, when login is successful
-          req.session.userId = name;
+          req.session.userId = userId;
           //Adds a login flag to tell if the user is logged in
           req.session.isLoggedIn = true;
           res.render("login", {message: "Sucessfully logged in, redirecting..."})

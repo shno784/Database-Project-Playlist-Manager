@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liked Songs</title>
+  <link rel="stylesheet" href="/table.css">
+</head>
+<body>
+  <h1>Liked Songs</h1>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Artist</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (likedSongs.length > 0) { %>
+        <% likedSongs.forEach(function(song) { %>
+          <tr>
+            <td><%= song.name %></td> <!-- Assuming 'title' is the column for the song's name -->
+            <td><%= song.artist %></td> <!-- Assuming 'artist' is the column for the artist's name -->
+            <td>
+              <button onclick="window.location.href='/play-song/<%= song.id %>'">Play</button>
+            </td>
+          </tr>
+        <% }); %>
+      <% } else { %>
+        <tr>
+          <td colspan="3">No liked songs found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <!-- Back Button -->
+  <button onclick="window.location.href='/'">Go Back</button>
+</body>
+</html>

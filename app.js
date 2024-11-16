@@ -4,6 +4,7 @@ var ejs = require("ejs");
 var session = require("express-session");
 var validator = require("express-validator");
 const expressSanitizer = require("express-sanitizer");
+require('dotenv').config();
 
 //Import mysql module
 var mysql = require("mysql2");
