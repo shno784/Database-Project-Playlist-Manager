@@ -20,43 +20,35 @@ router.get("/", function (req, res, next) {
 });
 
 //Show songs for each playlist
-router.get('/view/:id', (req, res, next) => {
-    const playlistId = req.params.id;
-    const userId = req.session.userId; // Assuming user ID is stored in session
-  
-    // Query to get the playlist info and the songs in the playlist for the logged-in user
-    const sqlQuery = `
-    SELECT p.name AS playlist_name, ps.song_name, ps.song_artist
-    FROM playlists p
-    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id
+router.get("/view/:id", (req, res, next) => {
+  const playlistId = req.params.id;
+  const userId = req.session.userId; // Assuming user ID is stored in session
+
+  // Query to get the playlist info and the songs in the playlist for the logged-in user
+  const sqlQuery = `
+    SELECT p.id, p.name AS playlist_name, ps.song_name, ps.song_artist
+    FROM playlists AS p
+    LEFT JOIN playlist_songs AS ps ON p.id = ps.playlist_id
     WHERE p.user_id = ? AND p.id = ?
   `;
+
+  db.query(sqlQuery, [userId, playlistId], (err, playlist) => {
+    if (err) {
+      return next(err);
+    }
+    console.log(playlist)
+    // Check if there are no songs in the playlist
+    const noSongs = playlist.length ===0;
+    if (noSongs) {
+      // Render the EJS template and pass the playlist data to it
+    res.render("playlist_view", { playlist, noSongs });
+    }
     
-    db.query(sqlQuery, [playlistId, userId], (err, results) => {
-      if (err) {
-        return next(err);
-      }
-      if (results.length === 0) {
-        // Handle this case, e.g., by sending an error or a message
-        return res.send('Error: Playlist not found or no songs in playlist');
-      }
-      // Separate playlist data and songs data
-  const playlist = {
-    name: results[0].playlist_name, // Playlist name
-    songs: results.map(row => ({
-      song_name: row.song_name,
-      artist: row.artist
-    })) // Songs in the playlist
-  };
-
-  // Check if there are no songs in the playlist
-  const noSongs = playlist.songs.length === 0;
-
-  // Render the EJS template and pass the playlist data to it
-  res.render('playlist_view', { playlist, noSongs });
-    });
+    // Render the EJS template and pass the playlist data to it
+    res.render("playlist_view", { playlist, noSongs });
   });
-  
+});
+
 //Show liked songs
 router.get("/like_song", function (req, res, next) {
   // Query to get liked songs
@@ -65,12 +57,12 @@ router.get("/like_song", function (req, res, next) {
     [req.session.userId],
     (err, likedSongs) => {
       if (err) {
-        next(err)
+        next(err);
         return;
       }
       console.log(likedSongs)
       // Render the EJS template and pass the liked songs data
-    res.render("like_songs", { likedSongs: likedSongs });
+      res.render("like_songs", { likedSongs: likedSongs });
     }
   );
 });
@@ -100,33 +92,100 @@ router.post("/like_song", function (req, res, next) {
   });
 });
 
+router.get("/remove_liked_song/:id", function (req, res, next) {
+  const songId = req.params.id;
+  const userId = req.session.userId;
+  let sqlquery = "DELETE FROM liked_songs WHERE id = ? AND user_id = ?"
+
+  db.query(sqlquery, [songId, userId], (err, results) => {
+    if (err) {
+      next(err)
+    } else {
+      res.render("successLike", {
+        message: "Song deleted successfully!", // Pass the success message to the template
+      });
+    }
+  })
+})
 //Create new playlist
 router.get("/create", function (req, res, next) {
-    res.render("createPlaylist.ejs")
-})
+  res.render("createPlaylist.ejs");
+});
 
+//create a playlist
 router.post("/create", function (req, res, next) {
-    const playlistName = req.body.name
-    let sqlquery = "INSERT INTO playlists (name, user_id) VALUES(?,?)"
+  const playlistName = req.body.name;
+  let sqlquery = "INSERT INTO playlists (name, user_id) VALUES(?,?)";
 
-    let playlistValues = [
-        req.sanitize(playlistName),
-        req.sanitize(req.session.userId)
-    ]
+  let playlistValues = [
+    req.sanitize(playlistName),
+    req.sanitize(req.session.userId),
+  ];
 
-    db.query(sqlquery, playlistValues, (err, result) => { 
-        if (err) {
-            next(err);
-          } else
-          {
-            res.render("successLike", {
-                message: "Playlist Created Succesfully", // Pass the success message to the template
-              });
-          }
-    })
+  db.query(sqlquery, playlistValues, (err, result) => {
+    if (err) {
+      next(err);
+    } else {
+      res.render("successLike", {
+        message: "Playlist Created Succesfully", // Pass the success message to the template
+      });
+    }
+  });
+});
+
+//Add song to a playlist
+router.post("/add_song/:id", function (req, res, next) {
+
+  const playlistId = req.sanitize(req.params.id);
+  const songName = req.sanitize(req.body.playlistsong_name);
+  const artistName = req.sanitize(req.body.playlistartist_name);
+
+  let sqlquery =
+    "INSERT INTO playlist_songs (playlist_id, song_name, song_artist) VALUES (?,?,?)";
+
+  db.query(sqlquery, [playlistId, songName, artistName], (err, result) => {
+    if (err) {
+      next(err);
+    } else {
+      res.send("successfully added to playlist my guy!");
+    }
+  });
+});
+
+//remove song from a playlist
+router.get("/remove_song/:playlistId/:songname", function (req, res, next) {
+  const playlistId = req.params.playlistId
+  const songname = req.params.songname
+
+  let sqlquery = "DELETE FROM playlist_songs WHERE playlist_id = ? AND song_name = ?"
+
+  db.query(sqlquery, [playlistId,songname], (err, result) => {
+    if (err) {
+      next(err)
+    } else {
+      res.render("successLike", {
+        message: "Song deleted successfully!", // Pass the success message to the template
+      });
+    }
+  })
 })
 
+router.get("/delete/:id", function(req,res,next) {
+  const playlistId = req.params.id;
+  const userId = req.session.userId
 
+  sqlquery = "DELETE FROM playlists WHERE id = ? AND user_id = ?"
+
+  db.query(sqlquery, [playlistId, userId], (err, results) => {
+    if (err) {
+      next(err)
+    } else {
+      res.render("successLike", {
+        message: "Playlist deleted successfully!", // Pass the success message to the template
+      });
+    }
+  })
+})
 //This will be to add playlist functionality.
 
 //Call liked songs and playlist, table showing title saying liked songs and a button to open, playlist has name and they have a delete button and open

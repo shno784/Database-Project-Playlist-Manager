@@ -8,7 +8,7 @@ const request = require("request");
 router.get("/", function (req, res, next) {
   // Get page, offset, and limit from query
   const api_key = process.env.API_KEY;
-
+  let sqlquery = "SELECT * FROM playlists where user_id = ?";
   const lastfmUrl = `https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=${api_key}&format=json`;
 
   request(lastfmUrl, function (err, response, body) {
@@ -60,7 +60,10 @@ router.get("/", function (req, res, next) {
           }
           //When requests are fulfilled for each track, render song.ejs
           if (completedRequests === tracks.length) {
-            res.render("songs.ejs", { tracks });
+            db.query(sqlquery, [req.session.userId], (err, playlists) => {
+              res.render("songs.ejs", { tracks, playlists });
+            })
+            
           }
         });
       });

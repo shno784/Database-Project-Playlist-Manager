@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial="1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Track List</title>
     <link rel="stylesheet" type="text/css" href="/table.css" />
   </head>
@@ -35,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        <% tracks.forEach(function(track) { %>
+        <% tracks.forEach(function (track) { %>
         <tr>
           <!-- Column for Album Cover -->
           <td>
@@ -59,14 +59,14 @@
 
           <!-- Artist -->
           <td><%= track.artist.name %></td>
+
           <!-- Column for Preview -->
           <td>
             <% if (track.preview) { %>
             <audio controls>
               <source src="<%= track.preview %>" type="audio/mpeg" />
-              <I>Your browser does not support the audio element.</I>
+              <i>Your browser does not support the audio element.</i>
             </audio>
-
             <% } else { %>
             <p>No preview available</p>
             <% } %>
@@ -76,19 +76,19 @@
           <td>
             <!-- Button container using Flexbox -->
             <div class="button-container">
-              <!-- Add to Playlist Button -->
-              <form method="GET" action="/add-to-playlist">
-                <input type="hidden" name="song_name" value="<%= track.name %>"> 
-                <input type="hidden" name="artist_name" value="<%= track.artist.name %>"> 
-                <button type="submit">Add to Playlist</button>
-              </form>
-          
-              <!-- Like Song Button -->
+              <button
+                type="button"
+                onclick="showplaylistBox('<%= track.name %>', '<%= track.artist.name %>')"
+              >
+                Add to Playlist
+              </button>
+
               <form method="POST" action="/playlists/like_song">
                 <input type="hidden" name="song_name" value="<%= track.name %>"> 
                 <input type="hidden" name="artist_name" value="<%= track.artist.name %>">  
                 <button type="submit">Like Song</button>
               </form>
+
             </div>
           </td>
         </tr>
@@ -96,29 +96,41 @@
       </tbody>
     </table>
 
-    <button onclick="window.location.href='/'">Go Back</button>
-    <!-- Script to play one audio at a time -->
-    <script>
-      //Function from https://stackoverflow.com/questions/20719550/play-one-html-audio-element-at-a-time Stack Overflow
-      function onlyPlayOneIn(container) {
-        container.addEventListener(
-          "play",
-          function (event) {
-            audio_elements = container.getElementsByTagName("audio");
-            for (i = 0; i < audio_elements.length; i++) {
-              audio_element = audio_elements[i];
-              if (audio_element !== event.target) {
-                audio_element.pause();
-              }
-            }
-          },
-          true
-        );
-      }
+    <div id="playlistBox">
+      <h2>Select Playlist</h2>
 
-      document.addEventListener("DOMContentLoaded", function () {
-        onlyPlayOneIn(document.body);
-      });
-    </script>
+      <!-- Container for Playlist List -->
+      <div id="playlistContainer">
+        <% if (playlists.length > 0) { %>
+        <ul>
+          <% playlists.forEach(function(playlist) { %>
+          <li>
+            <form method="POST" action="/playlists/add_song/<%= playlist.id %>">
+              <input type="hidden" name="playlistsong_name" value="" />
+              <input type="hidden" name="playlistartist_name" value="" />
+              <button type="submit"><%= playlist.name %></button>
+            </form>
+          </li>
+          <% }); %>
+        </ul>
+        <% } else { %>
+        <p>No playlists found. Create a new playlist!</p>
+        <% } %>
+      </div>
+
+      <!-- Create New Playlist Button -->
+      <button onclick="window.location.href='/playlists/create'">
+        Create New Playlist
+      </button>
+
+      <!-- Close Button -->
+      <button
+        onclick="document.getElementById('playlistBox').style.display='none'"
+      >
+        Close
+      </button>
+    </div>
+    <button onclick="window.location.href='/'">Go Back</button>
+    <script src="songTable.js"></script>
   </body>
 </html>

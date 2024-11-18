@@ -1,22 +1,39 @@
-<h1><%= playlist.name %></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playlist Details</title>
+  <link rel="stylesheet" type="text/css" href="/table.css" />
+</head>
+<body>
+  <h1><%= playlist.name %></h1>
 
-<% if (noSongs) { %>
-  <p>No songs added yet.</p>
-<% } else { %>
-  <table>
-    <thead>
-      <tr>
-        <th>Song Name</th>
-        <th>Artist</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% playlist.songs.forEach(function(song) { %>
+  <% if (noSongs) { %>
+    <p>No songs added yet.</p>
+  <% } else { %>
+    <table>
+      <thead>
         <tr>
-          <td><%= song.song_name %></td>
-          <td><%= song.artist %></td>
+          <th>Song Name</th>
+          <th>Artist</th>
+          <th>Actions</th>
         </tr>
-      <% }); %>
-    </tbody>
-  </table>
-<% } %>
+      </thead>
+      <tbody>
+        <% playlist.forEach(function(song) { %>
+          <tr>
+            <td><%= song.song_name %></td>
+            <td><%= song.song_artist %></td>
+            <td>
+              <form action="/playlists/remove_song/<%= song.id %>/<%= song.song_name %>" method="get">
+                <button type="submit" class="remove-button">Remove</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+</body>
+</html>

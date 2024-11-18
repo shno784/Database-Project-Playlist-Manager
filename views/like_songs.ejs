@@ -25,7 +25,9 @@
             <td><%= song.name %></td> <!-- Assuming 'title' is the column for the song's name -->
             <td><%= song.artist %></td> <!-- Assuming 'artist' is the column for the artist's name -->
             <td>
-              <button onclick="window.location.href='/play-song/<%= song.id %>'">Play</button>
+              <form action="/playlists/remove_liked_song/<%= song.id %>" method="get">
+                <button type="submit" class="remove-button">Remove</button>
+              </form>
             </td>
           </tr>
         <% }); %>
