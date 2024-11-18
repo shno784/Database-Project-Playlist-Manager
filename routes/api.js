@@ -62,8 +62,7 @@ router.get("/", function (req, res, next) {
           if (completedRequests === tracks.length) {
             db.query(sqlquery, [req.session.userId], (err, playlists) => {
               res.render("songs.ejs", { tracks, playlists });
-            })
-            
+            })       
           }
         });
       });
@@ -72,96 +71,75 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/search", function (req, res, next) {
-  const query = req.query.query; // Search query (can be track or artist)
-  const filter = req.query.filter; // The type of filter (can be artist or song)
-
-  const api_key = process.env.API_KEY; // Your Last.fm API key
+  const query = req.query.query; // Search query
+  const filter = req.query.filter; // Filter (artist or song)
+  const api_key = process.env.API_KEY;
+  let sqlquery = "SELECT * FROM playlists where user_id = ?";
   let lastfmUrl = "";
 
-  // Modify the URL based on the selected filter
   if (filter === "artist") {
-    lastfmUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.getTopTracks&artist=${query}&api_key=${api_key}&format=json`;
+    lastfmUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.getTopTracks&artist=${encodeURIComponent(query)}&api_key=${api_key}&format=json`;
   } else if (filter === "song") {
-    lastfmUrl = `https://ws.audioscrobbler.com/2.0/?method=track.search&track=${query}&api_key=${api_key}&format=json`;
+    lastfmUrl = `https://ws.audioscrobbler.com/2.0/?method=track.search&track=${encodeURIComponent(query)}&api_key=${api_key}&format=json`;
   }
 
-  // Make a request to the Last.fm API
   request(lastfmUrl, function (err, response, body) {
-    if (err) {
-      next(err); // Handle error
-    } else {
-      const data = JSON.parse(body);
-      let tracks = [];
+    if (err) return next(err);
+    const data = JSON.parse(body);
+    let tracks = [];
 
-      // Handle the response based on the type of search
-      if (filter === "artist") {
-        // Handle artist search - get the tracks of the artist
-        tracks = data.toptracks.track.map((track) => ({
-          name: track.name, // Track name
-          artist: { name: track.artist.name }, // Same artist for all tracks
-        }));
-      } else if (filter === "song") {
-        // Handle song (track) search - get the tracks
-        const trackMatches = data.results.trackmatches.track;
-        tracks = trackMatches.map((track) => ({
-          name: track.name,
-          artist: { name: track.artist },
-        }));
-      }
+    if (filter === "artist" && data.toptracks && data.toptracks.track) {
+      tracks = data.toptracks.track.map((track) => ({
+        name: track.name,
+        artist: { name: track.artist.name },
+      }));
+    } else if (filter === "song" && data.results && data.results.trackmatches.track) {
+      const trackMatches = data.results.trackmatches.track;
+      tracks = trackMatches.map((track) => ({
+        name: track.name,
+        artist: { name: track.artist },
+      }));
+    }
 
-      // Now for each track, let's fetch the preview and album cover from Deezer
-      let completedRequests = 0;
-
-      tracks.forEach((track) => {
-        const trackName = track.name;
-        const artistName = track.artist.name;
-
-        // Deezer API URL for track and artist search
-        const deezerUrl = `https://api.deezer.com/search?q=track:"${trackName}" artist:"${artistName}"`;
-
-        // Request to Deezer API to get track preview and album cover
-        request(deezerUrl, function (err, response, body) {
-          completedRequests++; // Increment when request is completed
-
-          if (!err && response.statusCode === 200) {
-            const deezerData = JSON.parse(body);
-
-            // If Deezer returns results, find the track and append preview and album cover
-            if (deezerData.data && deezerData.data.length > 0) {
-              const trackFound = deezerData.data.find((deezerTrack) => {
-                return (
-                  deezerTrack.title.toLowerCase() === trackName.toLowerCase() &&
-                  deezerTrack.artist.name.toLowerCase() ===
-                    artistName.toLowerCase()
-                );
-              });
-
-              if (trackFound) {
-                track.preview = trackFound.preview;
-                track.albumCover = trackFound.album.cover_medium;
-              } else {
-                track.preview = null;
-                track.albumCover = null;
-              }
-            } else {
-              track.preview = null;
-              track.albumCover = null;
-            }
-          } else {
-            track.preview = null;
-            track.albumCover = null;
-          }
-
-          // Once all requests are completed, render the songs.ejs view
-          if (completedRequests === tracks.length) {
-            res.render("songs.ejs", { tracks });
-          }
-        });
+    if (tracks.length === 0) {
+      return db.query(sqlquery, [req.session.userId], (err, playlists) => {
+        res.render("songs.ejs", { tracks: [], playlists });
       });
     }
+
+    let completedRequests = 0;
+    tracks.forEach((track) => {
+      const trackName = track.name;
+      const artistName = track.artist.name;
+      const deezerUrl = `https://api.deezer.com/search?q=track:"${trackName}" artist:"${artistName}"`;
+
+      request(deezerUrl, function (err, response, body) {
+        completedRequests++;
+        if (!err && response.statusCode === 200) {
+          const deezerData = JSON.parse(body);
+          if (deezerData.data && deezerData.data.length > 0) {
+            const trackFound = deezerData.data.find((deezerTrack) => {
+              return (
+                deezerTrack.title.toLowerCase() === trackName.toLowerCase() &&
+                deezerTrack.artist.name.toLowerCase() === artistName.toLowerCase()
+              );
+            });
+
+            if (trackFound) {
+              track.preview = trackFound.preview;
+              track.albumCover = trackFound.album.cover_medium;
+            }
+          }
+        }
+        if (completedRequests === tracks.length) {
+          db.query(sqlquery, [req.session.userId], (err, playlists) => {
+            res.render("songs.ejs", { tracks, playlists });
+          });
+        }
+      });
+    });
   });
 });
-
 
 // Export the router object so index.js can access it
 module.exports = router;

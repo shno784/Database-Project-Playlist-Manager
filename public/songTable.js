@@ -19,14 +19,26 @@ document.addEventListener("DOMContentLoaded", function () {
   onlyPlayOneIn(document.body);
 });
 
+// Function to show the playlist box and populate track data
 function showplaylistBox(trackName, artistName) {
-  const box = document.getElementById("playlistBox");
-  box.style.display = "block";
+  // Show the playlist box
+  document.getElementById('playlistBox').style.display = 'block';
 
-  // Check and set the value only if the inputs exist
-  document.querySelector('input[name="playlistsong_name"]').value = trackName;
-  document.querySelector('input[name="playlistartist_name"]').value = artistName;
+  // Loop through all playlist forms and populate hidden fields
+  const playlistForms = document.querySelectorAll('.playlist-form');
+  
+  // For each playlist form, set the track data dynamically
+  playlistForms.forEach(function(form) {
+    // Find the playlist id from the form's ID (assuming button's text is the playlist name)
+    const playlistId = form.querySelector('button').textContent;
+    
+    // Set the track's name and artist name for each playlist form
+    document.getElementById('playlistsong_name_' + playlistId).value = trackName;
+    document.getElementById('playlistartist_name_' + playlistId).value = artistName;
+  });
 }
+
+
 
 function closebox() {
   document.getElementById("playlistBox").style.display = "none";

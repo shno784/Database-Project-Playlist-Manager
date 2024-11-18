@@ -1,48 +1,111 @@
+body {
+  background-color: #0d0d0d; /* Deep black background */
+  color: #dcdcdc; /* Soft gray text for readability */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    color: darkcyan;
+  font-size: 24px;
+  color: #a29bfe; /* Light purple for main headers */
+  text-align: center;
 }
 
 h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    color: cadetblue;
+  font-size: 20px;
+  color: #6c5ce7; /* Rich purple for subheaders */
 }
 
-p,li {
-    font-family: Arial, Helvetica, sans-serif;
+p, li {
+  color: #b3b3b3; /* Soft gray for paragraph text */
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 a:link {
-    color: orangered;
-    text-decoration: none;
-    padding:5px;
-  }
-  
-  /* visited link */
-  a:visited {
-    color: tomato;
-    text-decoration: none;
-    padding:5px;
-  }
-  
-  /* mouse over link */
-  a:hover {
-    color: white;
-    text-decoration: none;
-    background-color: orangered;
-    padding:5px;
-  }
-  
-  /* selected link */
-  a:active {
-    color: blue;
-    text-decoration: none;
-    padding:5px;
-  }
+  color: #9b59b6; /* Vibrant purple for links */
+  text-decoration: none;
+  padding: 5px;
+}
 
-  .error {
-    color: red;
-    font-size: 12px;
+/* visited link */
+a:visited {
+  color: #8e44ad; /* Darker purple for visited links */
+  text-decoration: none;
+  padding: 5px;
+}
+
+/* mouse over link */
+a:hover {
+  color: #ffffff; /* White text on hover */
+  background-color: #9b59b6; /* Vibrant purple background */
+  text-decoration: none;
+  padding: 5px;
+}
+
+/* selected link */
+a:active {
+  color: #5d3f6a; /* Deep purple for active link */
+  text-decoration: none;
+  padding: 5px;
+}
+
+.error {
+  color: #e74c3c; /* Bright red for error messages */
+  font-size: 12px;
+}
+
+.go-back-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.go-back-btn:hover {
+  background-color: #5a4dbd;
+}
+
+/* Enhanced Search Bar Styling */
+form {
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #444; /* Dark border */
+  background-color: #1a1a1a; /* Dark background */
+  color: #dcdcdc; /* Light gray text */
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  border-color: #6c5ce7; /* Purple border on focus */
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #6c5ce7; /* Purple button */
+    color: #ffffff; /* White text */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #5a4dbd; /* Darker purple on hover */
   }

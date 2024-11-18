@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Track List</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
     <link rel="stylesheet" type="text/css" href="/table.css" />
   </head>
   <body>
@@ -11,11 +12,7 @@
 
     <!-- Search Bar -->
     <form method="GET" action="/api/search">
-      <input
-        type="text"
-        name="query"
-        placeholder="Search for song, artist, or album"
-      />
+      <input type="text" name="query" placeholder="Search for song, artist, or album" />
       <select name="filter">
         <option value="song">Song</option>
         <option value="artist">Artist</option>
@@ -35,32 +32,18 @@
         </tr>
       </thead>
       <tbody>
-        <% tracks.forEach(function (track) { %>
+        <!-- Loop over tracks -->
+        <% tracks.forEach(function(track) { %>
         <tr>
-          <!-- Column for Album Cover -->
           <td>
             <% if (track.albumCover) { %>
-            <img
-              src="<%= track.albumCover %>"
-              alt="Album Cover"
-              style="width: 50px; height: 50px"
-            />
+            <img src="<%= track.albumCover %>" alt="Album Cover" style="width: 50px; height: 50px" />
             <% } else { %>
-            <img
-              src="/placeholder.png"
-              alt="Placeholder Image"
-              style="width: 50px; height: 50px"
-            />
+            <img src="/placeholder.png" alt="Placeholder Image" style="width: 50px; height: 50px" />
             <% } %>
           </td>
-
-          <!-- Track Name -->
           <td><%= track.name %></td>
-
-          <!-- Artist -->
           <td><%= track.artist.name %></td>
-
-          <!-- Column for Preview -->
           <td>
             <% if (track.preview) { %>
             <audio controls>
@@ -71,43 +54,35 @@
             <p>No preview available</p>
             <% } %>
           </td>
-
-          <!-- Add to Playlist Button -->
           <td>
-            <!-- Button container using Flexbox -->
             <div class="button-container">
-              <button
-                type="button"
-                onclick="showplaylistBox('<%= track.name %>', '<%= track.artist.name %>')"
-              >
-                Add to Playlist
-              </button>
-
+              <!-- Button to open playlist box -->
+              <button type="button" onclick="showplaylistBox('<%= track.name %>', '<%= track.artist.name %>')">Add to Playlist</button>
               <form method="POST" action="/playlists/like_song">
-                <input type="hidden" name="song_name" value="<%= track.name %>"> 
-                <input type="hidden" name="artist_name" value="<%= track.artist.name %>">  
+                <input type="hidden" name="song_name" value="<%= track.name %>">
+                <input type="hidden" name="artist_name" value="<%= track.artist.name %>">
                 <button type="submit">Like Song</button>
               </form>
-
             </div>
           </td>
         </tr>
-        <% }); %>
+        <% }); %> <!-- End of track loop -->
       </tbody>
     </table>
 
-    <div id="playlistBox">
+    <!-- Playlist Box -->
+    <div id="playlistBox" style="display: none;">
       <h2>Select Playlist</h2>
-
-      <!-- Container for Playlist List -->
       <div id="playlistContainer">
         <% if (playlists.length > 0) { %>
         <ul>
+          <!-- Loop over playlists and create form for each -->
           <% playlists.forEach(function(playlist) { %>
           <li>
-            <form method="POST" action="/playlists/add_song/<%= playlist.id %>">
-              <input type="hidden" name="playlistsong_name" value="" />
-              <input type="hidden" name="playlistartist_name" value="" />
+            <form method="POST" action="/playlists/add_song/<%= playlist.id %>" class="playlist-form">
+              <!-- Hidden fields for song name and artist -->
+              <input type="text" name="playlistsong_name" id="playlistsong_name_<%= playlist.id %>" value="" />
+              <input type="text" name="playlistartist_name" id="playlistartist_name_<%= playlist.id %>" value="" />
               <button type="submit"><%= playlist.name %></button>
             </form>
           </li>
@@ -117,20 +92,13 @@
         <p>No playlists found. Create a new playlist!</p>
         <% } %>
       </div>
-
-      <!-- Create New Playlist Button -->
-      <button onclick="window.location.href='/playlists/create'">
-        Create New Playlist
-      </button>
-
-      <!-- Close Button -->
-      <button
-        onclick="document.getElementById('playlistBox').style.display='none'"
-      >
-        Close
-      </button>
+      <button onclick="window.location.href='/playlists/create'">Create New Playlist</button>
+      <button onclick="document.getElementById('playlistBox').style.display='none'">Close</button>
     </div>
-    <button onclick="window.location.href='/'">Go Back</button>
-    <script src="songTable.js"></script>
+
+    <!-- Go Back Button -->
+    <button onclick="window.location.href='/'" class="go-back-btn">Go Back</button>
+
+    <script src="/songTable.js"></script>
   </body>
 </html>

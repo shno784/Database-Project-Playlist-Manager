@@ -51,7 +51,8 @@
       type="email" 
       id="email" 
       name="email" 
-      value="<%= data && data.email ? data.email : '' %>">
+      value="<%= data && data.email ? data.email : '' %>"
+      required>
     <br><br>
 
     <label for="password">Password:</label>
@@ -65,7 +66,7 @@
     <button type="submit" id="submitBtn">Register</button>
   </form>
 
-  <button onclick="window.location.href='/'">Go Back</button>
+  <button onclick="window.location.href='/'" class="go-back-btn">Go Back</button>
 
 </body>
 </html>
