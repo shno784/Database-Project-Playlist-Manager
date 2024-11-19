@@ -4,7 +4,7 @@ var ejs = require("ejs");
 var session = require("express-session");
 var validator = require("express-validator");
 const expressSanitizer = require("express-sanitizer");
-require('dotenv').config();
+require("dotenv").config();
 
 //Import mysql module
 var mysql = require("mysql2");
@@ -15,15 +15,15 @@ const port = 8000;
 
 // Create a session
 app.use(
-    session({
-      secret: "secretwordddd",
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        expires: 600000,
-      },
-    })
-  );
+  session({
+    secret: "secretwordddd",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 600000,
+    },
+  })
+);
 
 // Tell Express that we want to use EJS as the templating engine
 app.set("view engine", "ejs");
@@ -39,19 +39,19 @@ app.use(expressSanitizer());
 
 //Add db stuff
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "playlist_manager_app",
-    password: "qwertyuiop",
-    database: "playlist_manager",
-  });
+  host: "localhost",
+  user: "playlist_manager_app",
+  password: "qwertyuiop",
+  database: "playlist_manager",
+});
 // Connect to the database
 db.connect((err) => {
-    if (err) {
-      throw err;
-    }
-    console.log("Connected to database");
-  });
-  global.db = db;
+  if (err) {
+    throw err;
+  }
+  console.log("Connected to database");
+});
+global.db = db;
 
 // Define our application-specific data
 app.locals.siteData = { siteName: "Playlist Manager" };
@@ -63,9 +63,9 @@ const usersRoutes = require("./routes/users");
 app.use("/users", usersRoutes);
 
 const apiRoutes = require("./routes/api");
-app.use("/api", apiRoutes)
+app.use("/api", apiRoutes);
 
 const playlistRoutes = require("./routes/playlists");
-app.use("/playlists", playlistRoutes)
+app.use("/playlists", playlistRoutes);
 // Start the web app listening
 app.listen(port, () => console.log(`Node app listening on port ${port}!`));

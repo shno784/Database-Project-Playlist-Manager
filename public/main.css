@@ -6,54 +6,54 @@ body {
 
 h1 {
   font-size: 24px;
-  color: #a29bfe; /* Light purple for main headers */
+  color: #a29bfe; 
   text-align: center;
 }
 
 h2 {
   font-size: 20px;
-  color: #6c5ce7; /* Rich purple for subheaders */
+  color: #6c5ce7; 
 }
 
 p, li {
-  color: #b3b3b3; /* Soft gray for paragraph text */
+  color: #b3b3b3; 
   font-family: Arial, Helvetica, sans-serif;
 }
 
 a:link {
-  color: #9b59b6; /* Vibrant purple for links */
+  color: #9b59b6; 
   text-decoration: none;
   padding: 5px;
 }
 
 /* visited link */
 a:visited {
-  color: #8e44ad; /* Darker purple for visited links */
+  color: #8e44ad;
   text-decoration: none;
   padding: 5px;
 }
 
 /* mouse over link */
 a:hover {
-  color: #ffffff; /* White text on hover */
-  background-color: #9b59b6; /* Vibrant purple background */
+  color: #ffffff; 
+  background-color: #9b59b6; 
   text-decoration: none;
   padding: 5px;
 }
 
 /* selected link */
 a:active {
-  color: #5d3f6a; /* Deep purple for active link */
+  color: #5d3f6a;
   text-decoration: none;
   padding: 5px;
 }
 
 .error {
-  color: #e74c3c; /* Bright red for error messages */
+  color: #e74c3c;
   font-size: 12px;
 }
 
-.go-back-btn {
+#go-back-btn {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -65,7 +65,7 @@ a:active {
   border-radius: 5px;
 }
 
-.go-back-btn:hover {
+#go-back-btn:hover {
   background-color: #5a4dbd;
 }
 
@@ -83,9 +83,9 @@ input[type="email"] {
   font-size: 16px;
   width: 300px;
   border-radius: 5px;
-  border: 1px solid #444; /* Dark border */
-  background-color: #1a1a1a; /* Dark background */
-  color: #dcdcdc; /* Light gray text */
+  border: 1px solid #444; 
+  background-color: #1a1a1a; 
+  color: #dcdcdc; 
   outline: none;
   transition: border-color 0.3s;
 }
@@ -93,19 +93,19 @@ input[type="email"] {
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus {
-  border-color: #6c5ce7; /* Purple border on focus */
+  border-color: #6c5ce7; 
 }
 
 button[type="submit"] {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
-    background-color: #6c5ce7; /* Purple button */
-    color: #ffffff; /* White text */
+    background-color: #6c5ce7; 
+    color: #ffffff; 
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
   button[type="submit"]:hover {
-    background-color: #5a4dbd; /* Darker purple on hover */
+    background-color: #5a4dbd; 
   }

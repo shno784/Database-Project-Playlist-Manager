@@ -3,19 +3,22 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const redirectLogin = require("../middleware/redirectLogin");
-const { body, validationResult } = require("express-validator");
+const {validationResult } = require("express-validator");
 const { validateRegistration } = require("../middleware/registervalidator");
 
 router.get("/register", function (req, res, next) {
-  res.render("register", { errors: [], data: {} });
+  res.render("register", { errors: [], data: {}, message: {} });
 });
 
+//Register a user
 router.post("/register", validateRegistration, (req, res) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     return res.render("register", {
-      errors: errors.array(), // Pass errors to template
+      errors: errors.array(),
       data: req.body, // Pass form data back to populate form
+      message: {}
     });
   } else {
     // saving data in database
@@ -37,23 +40,8 @@ router.post("/register", validateRegistration, (req, res) => {
       db.query(sqlquery, newuser, (err, result) => {
         if (err) {
           next(err);
-        } else
-          result =
-            "Hello " +
-            req.sanitize(req.body.first) +
-            " " +
-            req.sanitize(req.body.last) +
-            " you are now registered!  We will send an email to you at " +
-            req.sanitize(req.body.email);
-        result +=
-          "Your password is: " +
-          req.body.password +
-          " and your hashed password is: " +
-          hashedPassword;
-
-        res.send(result);
-
-        //Here, probably a successful login and then redirect to the login page so you have to make a hello and goodbye page lmao
+        }
+          res.render("register", {message: 'Successfully registered, redirecting...'})
       });
     });
   }
@@ -65,6 +53,7 @@ router.get("/login", function (req, res, next) {
   res.render("login.ejs", {message: {}, error: errorMessage, data: {}});
 });
 
+//Login user
 router.post("/login", function (req, res, next) {
   let sqlquery = "SELECT id, hashedpassword from users where username=(?)";
   const name = req.body.username;
@@ -87,7 +76,7 @@ router.post("/login", function (req, res, next) {
           req.session.isLoggedIn = true;
           res.render("login", {message: "Sucessfully logged in, redirecting..."})
         } else {
-          // TODO: Send message
+          // Send a message
           return res.render("login", {message: {}, error: 'Incorrect username or password', data: req.body})
         }
       });
@@ -95,7 +84,7 @@ router.post("/login", function (req, res, next) {
   });
 });
 
-//Logout
+//Logout user
 router.get("/logout", redirectLogin, (req, res) => {
   req.session.destroy((err) => {
     if (err) {

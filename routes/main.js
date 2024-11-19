@@ -5,13 +5,12 @@ const router = express.Router();
 
 // Handle our routes
 router.get("/", function (req, res, next) {
-    res.render("index.ejs", { isLoggedIn: req.session.isLoggedIn }); //placeholder
+    return res.render("index.ejs", { isLoggedIn: req.session.isLoggedIn }); //placeholder
 });
 
 router.get("/about", function (req, res, next) {
-    res.render("about.ejs");
+    return res.render("about.ejs");
   });
-
 
 // Export the router object so index.js can access it
 module.exports = router;

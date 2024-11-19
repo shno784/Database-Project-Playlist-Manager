@@ -33,7 +33,7 @@
       </thead>
       <tbody>
         <!-- Loop over tracks -->
-        <% tracks.forEach(function(track) { %>
+        <% tracks.forEach((track) => { %>
         <tr>
           <td>
             <% if (track.albumCover) { %>
@@ -77,12 +77,11 @@
         <% if (playlists.length > 0) { %>
         <ul>
           <!-- Loop over playlists and create form for each -->
-          <% playlists.forEach(function(playlist) { %>
+          <% playlists.forEach((playlist) => { %>
           <li>
             <form method="POST" action="/playlists/add_song/<%= playlist.id %>" class="playlist-form">
-              <!-- Hidden fields for song name and artist -->
-              <input type="text" name="playlistsong_name" id="playlistsong_name_<%= playlist.id %>" value="" />
-              <input type="text" name="playlistartist_name" id="playlistartist_name_<%= playlist.id %>" value="" />
+              <input type="hidden" name="playlistsong_name" id="playlistsong_name" value="" />
+              <input type="hidden" name="playlistartist_name" id="playlistartist_name" value="" />
               <button type="submit"><%= playlist.name %></button>
             </form>
           </li>
@@ -97,8 +96,9 @@
     </div>
 
     <!-- Go Back Button -->
-    <button onclick="window.location.href='/'" class="go-back-btn">Go Back</button>
+    <button id="go-back-btn">Go Back</button>
 
     <script src="/songTable.js"></script>
+    <script src="/back.js"></script>
   </body>
 </html>

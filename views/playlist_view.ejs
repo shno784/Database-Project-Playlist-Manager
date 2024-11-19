@@ -8,11 +8,10 @@
   <link rel="stylesheet" type="text/css" href="/table.css" />
 </head>
 <body>
-  <h1><%= playlist.name %></h1>
-
   <% if (noSongs) { %>
     <h1 style="color: white;">No songs added yet.</h1>
   <% } else { %>
+    <h1><%= playlist[0].playlist_name %></h1>
     <table>
       <thead>
         <tr>
@@ -22,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <% playlist.forEach(function(song) { %>
+        <% playlist.forEach((song) => { %>
           <tr>
             <td><%= song.song_name %></td>
             <td><%= song.song_artist %></td>
@@ -36,6 +35,7 @@
       </tbody>
     </table>
   <% } %>
-  <button onclick="window.location.href='/'" class="go-back-btn">Go Back</button>
+  <button id="go-back-btn">Go Back</button>
+  <script src="/back.js"></script>
 </body>
 </html>

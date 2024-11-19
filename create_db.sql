@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS playlist_songs (
   playlist_id INT NOT NULL,          
   song_name VARCHAR(255) NOT NULL,    
   song_artist VARCHAR(255) NOT NULL,   
-  FOREIGN KEY (playlist_id) REFERENCES playlists(id)
+  FOREIGN KEY (playlist_id) REFERENCES playlists(id) ON DELETE CASCADE
 );
 
 #Create liked songs table

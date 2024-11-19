@@ -21,7 +21,7 @@
     </thead>
     <tbody>
       <% if (likedSongs.length > 0) { %>
-        <% likedSongs.forEach(function(song) { %>
+        <% likedSongs.forEach((song) => { %>
           <tr>
             <td><%= song.name %></td> <!-- Assuming 'title' is the column for the song's name -->
             <td><%= song.artist %></td> <!-- Assuming 'artist' is the column for the artist's name -->
@@ -41,6 +41,7 @@
   </table>
 
   <!-- Back Button -->
-  <button onclick="window.location.href='/'" class="go-back-btn">Go Back</button>
+  <button id="go-back-btn">Go Back</button>
+  <script src="/back.js"></script>
 </body>
 </html>

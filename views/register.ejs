@@ -1,72 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register for <%= siteData.siteName %> </title>
-  <link rel="stylesheet"  type="text/css" href="/main.css" />
-</head>
-<body>
-  <h1>Create an Account</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register for <%= siteData.siteName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <!-- Redirects the user if they register sucessfully -->
+    <% if (message.length > 0) { %>
+    <!-- Check if message exists and is not empty -->
+    <h1><%= message %></h1>
+    <!-- Auto-redirect after 3 seconds -->
+    <meta http-equiv="refresh" content="3;url=/" />
+    <% } else { %>
 
-  <!-- Display error messages from the server -->
-  <% if (errors && errors.length > 0) { %>
+    <h1>Create an Account</h1>
+    <!-- Display error messages from the server -->
+    <% if (errors && errors.length > 0) { %>
     <ul>
-      <% errors.forEach(function(error) { %>
-        <li class="error"><%= error.msg %></li>
+      <% errors.forEach((error) => { %>
+      <li class="error"><%= error.msg %></li>
       <% }) %>
     </ul>
-  <% } %>
+    <% } %>
 
-  <!-- Registration Form -->
-  <!-- Value keeps data when page is refreshed! -->
-  <form id="registerForm" action="register" method="POST">
+    <!-- Registration Form -->
+    <!-- Value keeps data when page is refreshed! -->
+    <form id="registerForm" action="register" method="POST">
+      <label for="firstname">Firstname:</label>
+      <input
+        type="text"
+        id="first"
+        name="first"
+        value="<%= data && data.first ? data.first : '' %>"
+      />
+      <br /><br />
 
-    <label for="firstname">Firstname:</label>
-    <input 
-      type="text" 
-      id="first" 
-      name="first" 
-      value="<%= data && data.first ? data.first : '' %>">
-    <br><br>
+      <label for="lastname">Lastname:</label>
+      <input
+        type="text"
+        id="last"
+        name="last"
+        value="<%= data && data.last ? data.last : '' %>"
+      />
+      <br /><br />
 
-    <label for="lastname">Lastname:</label>
-    <input 
-      type="text" 
-      id="last" 
-      name="last" 
-      value="<%= data && data.last ? data.last : '' %>">
-    <br><br>
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        value="<%= data && data.username ? data.username : '' %>"
+      />
+      <br /><br />
 
-    <label for="username">Username:</label>
-    <input 
-      type="text" 
-      id="username" 
-      name="username" 
-      value="<%= data && data.username ? data.username : '' %>">
-    <br><br>
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="<%= data && data.email ? data.email : '' %>"
+        required
+      />
+      <br /><br />
 
-    <label for="email">Email:</label>
-    <input 
-      type="email" 
-      id="email" 
-      name="email" 
-      value="<%= data && data.email ? data.email : '' %>"
-      required>
-    <br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <br /><br />
 
-    <label for="password">Password:</label>
-    <input 
-      type="password" 
-      id="password" 
-      name="password" 
-      required>
-    <br><br>
+      <button type="submit" id="submitBtn">Register</button>
+    </form>
 
-    <button type="submit" id="submitBtn">Register</button>
-  </form>
-
-  <button onclick="window.location.href='/'" class="go-back-btn">Go Back</button>
-
-</body>
+    <button id="go-back-btn">Go Back</button>
+    <% } %>
+    <script src="/back.js"></script>
+  </body>
 </html>

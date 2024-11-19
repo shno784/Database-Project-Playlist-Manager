@@ -31,7 +31,7 @@
 
       <!-- Dynamically generated playlist rows -->
       <% if (playlists.length > 0) { %>
-        <% playlists.forEach(function(playlist) { %>
+        <% playlists.forEach((playlist) => { %>
           <tr>
             <td><%= playlist.name %></td>
             <td>
@@ -56,6 +56,7 @@
   <form method="GET" action="/playlists/create" style="display: inline;">
     <button type="submit">Create Playlist</button>
   </form>
-  <button onclick="window.location.href='/'" class="go-back-btn">Go Back</button>
+  <button id="go-back-btn">Go Back</button>
+  <script src="/back.js"></script>
 </body>
 </html>
