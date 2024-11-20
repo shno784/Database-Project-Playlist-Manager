@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const redirectLogin = require("../middleware/redirectLogin");
 
+//Apply redirect login to all routes
+router.use(redirectLogin);
+
 router.get("/", function (req, res, next) {
   // Get all playlists for logged in user
   db.query(

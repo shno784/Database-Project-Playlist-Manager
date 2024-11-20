@@ -1,8 +1,6 @@
 // Import express and ejs
 var express = require("express");
-var ejs = require("ejs");
 var session = require("express-session");
-var validator = require("express-validator");
 const expressSanitizer = require("express-sanitizer");
 require("dotenv").config();
 

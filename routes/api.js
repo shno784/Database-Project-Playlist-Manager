@@ -3,6 +3,9 @@ const router = express.Router();
 const redirectLogin = require("../middleware/redirectLogin");
 const request = require("request");
 
+//Apply redirect login to all routes
+router.use(redirectLogin);
+
 router.get("/", function (req, res, next) {
   const api_key = process.env.API_KEY;
   const userId = req.session.userId;
