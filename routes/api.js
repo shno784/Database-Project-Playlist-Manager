@@ -13,18 +13,21 @@ router.get("/", function (req, res, next) {
 
   // Fetch playlists
   db.query(sqlQuery, [userId], (err, playlists) => {
-    if (err) return next(err);
-
+    if (err) {
+      next (err)
+    }
     // Fetch top tracks from Last.fm
     request(lastfmUrl, function (err, response, body) {
-      if (err) return next(err);
+      if (err) {
+        next(err)
+      }
 
       let tracks;
       try {
         const data = JSON.parse(body);
         tracks = data.tracks.track;
-      } catch (err) {
-        return next(err);
+      } catch (error) {
+        return next(error);
       }
 
       if (!tracks || tracks.length === 0) {
@@ -123,8 +126,8 @@ router.get("/search", redirectLogin, function (req, res, next) {
         artist: { name: track.artist },
         }));
       }
-    } catch (err) {
-      return next(err);
+    } catch (error) {
+      return next(error);
     }
 
     // If no tracks found, render with empty results
