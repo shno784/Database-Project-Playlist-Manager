@@ -96,8 +96,7 @@ router.get("/remove_liked_song/:id", function (req, res, next) {
       return next(err);
     } else {
       res.render("successLike", {
-        message: "Song unliked successfully!",
-        previousUrl: '../' || '/'
+        message: "Song unliked successfully!"
       });
     }
   });
@@ -126,8 +125,7 @@ router.post("/create", function (req, res, next) {
       // If a playlist with the same name exists, return an error message
       return res.render("successLike", {
         message:
-          "A playlist with this name already exists. Please choose a different name.",
-          previousUrl: req.headers.referer || '/'
+          "A playlist with this name already exists. Please choose a different name."
       });
     }
     db.query(sqlquery, playlistValues, (err, result) => {
@@ -135,8 +133,7 @@ router.post("/create", function (req, res, next) {
         return next(err);
       }
       res.render("successLike", {
-        message: "Playlist Created Succesfully!",
-        previousUrl: '../' || '/'
+        message: "Playlist Created Succesfully!"
       });
     });
   });
@@ -163,8 +160,7 @@ router.post("/add_song/:id", function (req, res, next) {
     }
     if (songs.length > 0) {
       return res.render("successLike", {
-        message: "You already liked this song.",
-        previousUrl: req.headers.referer || '/'
+        message: "You already liked this song."
       });
     }
     db.query(sqlquery, song, (err, result) => {
@@ -172,8 +168,7 @@ router.post("/add_song/:id", function (req, res, next) {
         return next(err);
       }
       return res.render("successLike", {
-        message: "Added song to playlist successfully!",
-        previousUrl: `/usr/108/playlists/view/${playlistId}` || '/'
+        message: "Added song to playlist successfully!"
       });
     });
   });
@@ -192,8 +187,7 @@ router.get("/remove_song/:playlistId/:songname", function (req, res, next) {
       return next(err);
     } else {
       res.render("successLike", {
-        message: "Song removed successfully!",
-        previousUrl: '/usr/108/playlists' || '/'
+        message: "Song removed successfully!"
       });
     }
   });
@@ -211,8 +205,7 @@ router.get("/delete/:id", function (req, res, next) {
       return next(err);
     } else {
       res.render("successLike", {
-        message: "Playlist deleted successfully!",
-        previousUrl: '/usr/108/playlists' || '/'
+        message: "Playlist deleted successfully!"
       });
     }
   });
