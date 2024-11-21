@@ -26,8 +26,8 @@
             <td><%= song.song_name %></td>
             <td><%= song.song_artist %></td>
             <td>
-              <form action="/playlists/remove_song/<%= song.id %>/<%= song.song_name %>" method="get">
-                <button type="submit" class="remove-button">Remove</button>
+              <form action="/playlists/remove_song/<%= song.id %>/<%= song.song_name %>" method="get" onsubmit="return confirm('Are you sure you want to remove this song from playlist?');">
+                <button type="submit" class="remove-button">Remove from Playlist</button>
               </form>
             </td>
           </tr>

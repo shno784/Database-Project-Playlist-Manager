@@ -38,7 +38,7 @@
               <form method="GET" action="/playlists/view/<%= playlist.id %>" style="display: inline;">
                 <button type="submit">View</button>
               </form>
-              <form method="GET" action="/playlists/delete/<%= playlist.id %>" style="display: inline;">
+              <form method="GET" action="/playlists/delete/<%= playlist.id %>" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this playlist?');">
                 <button type="submit">Delete</button>
               </form>
             </td>

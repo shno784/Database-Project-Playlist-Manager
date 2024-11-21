@@ -4,11 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial="1.0">
     <title>Success</title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
-    <h1><%= message %></h1>
-    <button id="go-back-btn">Go Back</button>
-    <script src="/back.js"></script>
+    <h1><%= message %> Redirecting...</h1>
   </body>
+
+  <script>
+    setTimeout(() => {
+      const previousUrl = "<%= previousUrl %>";
+      window.location.replace(previousUrl);
+    }, 3000); // Redirect after 3 seconds
+  </script>
 </html>

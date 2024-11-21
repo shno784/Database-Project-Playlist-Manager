@@ -3,8 +3,6 @@ const router = express.Router();
 const redirectLogin = require("../middleware/redirectLogin");
 const request = require("request");
 
-//Apply redirect login to all routes
-router.use(redirectLogin);
 
 router.get("/", function (req, res, next) {
   const api_key = process.env.API_KEY;
@@ -86,7 +84,7 @@ router.get("/", function (req, res, next) {
   });
 });
 
-router.get("/search", function (req, res, next) {
+router.get("/search", redirectLogin, function (req, res, next) {
   const query = req.query.query;
   const filter = req.query.filter; // Filter (artist or song)
   const api_key = process.env.API_KEY;

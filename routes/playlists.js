@@ -81,6 +81,7 @@ router.post("/like_song", function (req, res, next) {
     }
     res.render("successLike", {
       message: "Song liked successfully!",
+      previousUrl: req.headers.referer || '/'
     });
   });
 });
@@ -95,7 +96,8 @@ router.get("/remove_liked_song/:id", function (req, res, next) {
       next(err);
     } else {
       res.render("successLike", {
-        message: "Song deleted successfully!",
+        message: "Song unliked successfully!",
+        previousUrl: req.headers.referer || '/'
       });
     }
   });
@@ -125,6 +127,7 @@ router.post("/create", function (req, res, next) {
       return res.render("successLike", {
         message:
           "A playlist with this name already exists. Please choose a different name.",
+          previousUrl: req.headers.referer || '/'
       });
     }
     db.query(sqlquery, playlistValues, (err, result) => {
@@ -132,7 +135,8 @@ router.post("/create", function (req, res, next) {
         next(err);
       }
       res.render("successLike", {
-        message: "Playlist Created Succesfully",
+        message: "Playlist Created Succesfully!",
+        previousUrl: req.headers.referer || '/'
       });
     });
   });
@@ -144,7 +148,7 @@ router.post("/add_song/:id", function (req, res, next) {
   const songName = req.body.playlistsong_name;
   const artistName = req.body.playlistartist_name;
 
-  let checkquery = "SELECT * FROM playlist_songs WHERE ";
+  let checkquery = "SELECT * FROM playlist_songs WHERE playlist_id = ? AND song_name = ? AND song_artist = ?";
   let sqlquery =
     "INSERT INTO playlist_songs (playlist_id, song_name, song_artist) VALUES (?,?,?)";
 
@@ -153,21 +157,23 @@ router.post("/add_song/:id", function (req, res, next) {
     req.sanitize(songName),
     req.sanitize(artistName),
   ];
-  db.query(checkquery, song, (err, song) => {
+  db.query(checkquery, song, (err, songs) => {
     if (err) {
       next(err);
     }
-    if (song.length > 0) {
+    if (songs.length > 0) {
       return res.render("successLike", {
         message: "You already liked this song.",
+        previousUrl: req.headers.referer || '/'
       });
     }
     db.query(sqlquery, song, (err, result) => {
       if (err) {
         next(err);
       }
-      res.render("successLike", {
-        message: "Added song to playlist successfully",
+      return res.render("successLike", {
+        message: "Added song to playlist successfully!",
+        previousUrl: req.headers.referer || '/'
       });
     });
   });
@@ -186,7 +192,8 @@ router.get("/remove_song/:playlistId/:songname", function (req, res, next) {
       next(err);
     } else {
       res.render("successLike", {
-        message: "Song deleted successfully!",
+        message: "Song removed successfully!",
+        previousUrl: req.headers.referer || '/'
       });
     }
   });
@@ -205,6 +212,7 @@ router.get("/delete/:id", function (req, res, next) {
     } else {
       res.render("successLike", {
         message: "Playlist deleted successfully!",
+        previousUrl: req.headers.referer || '/'
       });
     }
   });
