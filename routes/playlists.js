@@ -81,7 +81,7 @@ router.post("/like_song", function (req, res, next) {
     }
     res.render("successLike", {
       message: "Song liked successfully!",
-      previousUrl: '/playlists/like_song' || '/'
+      previousUrl: '../playlists/like_song' || '/'
     });
   });
 });
@@ -97,7 +97,7 @@ router.get("/remove_liked_song/:id", function (req, res, next) {
     } else {
       res.render("successLike", {
         message: "Song unliked successfully!",
-        previousUrl: '/playlists' || '/'
+        previousUrl: '../playlists' || '/'
       });
     }
   });
@@ -136,7 +136,7 @@ router.post("/create", function (req, res, next) {
       }
       res.render("successLike", {
         message: "Playlist Created Succesfully!",
-        previousUrl: '/playlists' || '/'
+        previousUrl: '../playlists' || '/'
       });
     });
   });
@@ -173,7 +173,7 @@ router.post("/add_song/:id", function (req, res, next) {
       }
       return res.render("successLike", {
         message: "Added song to playlist successfully!",
-        previousUrl: `/playlists/view/${playlistId}` || '/'
+        previousUrl: `../playlists/view/${playlistId}` || '/'
       });
     });
   });
