@@ -53,6 +53,8 @@ global.db = db;
 
 // Define our application-specific data
 app.locals.siteData = { siteName: "Playlist Manager" };
+app.locals.basePath = "/usr/108";
+
 // Load the route handlers
 const mainRoutes = require("./routes/main");
 app.use("/", mainRoutes);
