@@ -19,6 +19,18 @@ router.get("/", function (req, res, next) {
   );
 });
 
+router.get("/search", function (req, res, next) {
+  const query = req.query.search_playlist;
+  let sqlquery = "SELECT * FROM playlists WHERE name LIKE '%" + query + "%'";
+
+  db.query(sqlquery, (err, result) => {
+    if (err) {
+      return next(err);
+    }
+    res.render("playlists", {playlists: result});
+  })
+})
+
 //Show songs for each playlist
 router.get("/view/:id", (req, res, next) => {
   const playlistId = req.params.id;

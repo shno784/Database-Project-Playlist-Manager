@@ -10,7 +10,11 @@
 </head>
 <body>
   <h1>Your Playlists</h1>
-
+<!-- Search Bar -->
+<form method="GET" action="/playlists/search">
+  <input type="text" name="search_playlist" placeholder="Search for playlist" />
+  <button type="submit">Search</button>
+</form>
   <table border="1">
     <thead>
       <tr>
