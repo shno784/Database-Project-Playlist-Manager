@@ -27,7 +27,7 @@ router.get("/search", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render("playlists", {playlists: result});
+    res.render("playlist_search", {playlists: result});
   })
 })
 
