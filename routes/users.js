@@ -55,7 +55,7 @@ router.get("/login", function (req, res, next) {
 
 //Login user
 router.post("/login", function (req, res, next) {
-  let sqlquery = "SELECT id, hashedpassword from users where username=(?)";
+  let sqlquery = "SELECT id, hashedpassword from users where username = ?";
   const name = req.body.username;
   db.query(sqlquery, name, (err, result) => {
     if (err) {

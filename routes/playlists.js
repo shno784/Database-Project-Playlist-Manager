@@ -21,9 +21,11 @@ router.get("/", function (req, res, next) {
 
 router.get("/search", function (req, res, next) {
   const query = req.query.search_playlist;
-  let sqlquery = "SELECT * FROM playlists WHERE name LIKE '%" + query + "%'";
+  const userId = req.session.userId
 
-  db.query(sqlquery, (err, result) => {
+  let sqlquery = "SELECT * FROM playlists WHERE name LIKE ? AND user_id = ?";
+  
+  db.query(sqlquery, [`%${query}%`, userId],  (err, result) => {
     if (err) {
       return next(err);
     }
