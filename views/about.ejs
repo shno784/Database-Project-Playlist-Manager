@@ -1,13 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>About <%= siteData.siteName %>></title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
+  <style>
+    .content {
+      justify-content: center;
+      width:50%;
+      margin: 0 auto;
+    }
+  </style>
   <body>
-    <h1>About <%= siteData.siteName %></h1>
-    <p>Organise your favorite songs into different playlists!</p>
-    <button id="go-back-btn" onclick="window.location.href='<%= basePath %>/'">Go Back</button>
+    <div class="content">
+      <h1>About <%= siteData.siteName %></h1>
+      <p>
+        Welcome to our Music Platform, a space designed to enhance your music
+        experience and help you discover and organise your favourite songs. Our
+        goal is to provide you with a user-friendly interface that allows you to
+        explore, create, and manage playlists while enjoying a personalised
+        music library.
+      </p>
+      <h2>Discover Music</h2>
+      <p>
+        Browse through a wide selection of songs across different genres.
+        Whether you're searching for specific tracks or artists, or simply
+        exploring new music, our platform makes it easy to discover and enjoy
+        your favourite tunes.
+      </p>
+      <h2>Create & Organise Playlists</h2>
+      <p>
+        With our playlist management system, you can create personalised
+        playlists to suit every mood, event, or occasion. Add songs, remove
+        them, and even create new playlists directly from the song page.
+        Organise your music collection exactly how you want it.
+      </p>
+      <h2>Personalisation</h2>
+      <p>
+        Our platform adapts to you. Log in to access your personalised
+        playlists, explore new music, and manage your collection seamlessly.
+        Keep track of all your liked songs and favourite playlists in one place.
+      </p>
+    </div>
 
+    <button id="go-back-btn" onclick="window.location.href='<%= basePath %>/'">
+      Go Back
+    </button>
   </body>
 </html>
