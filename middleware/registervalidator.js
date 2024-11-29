@@ -6,7 +6,8 @@ const validateRegistration = [
   body("username")
     .trim()
     .isLength({ min: 3 })
-    .withMessage("Username must be at least 3 characters long"),
+    .withMessage("Username must be at least 3 characters long")
+    .isAlpha().withMessage('Username must contain only letters'),
 
   // Validate email
   body("email")
