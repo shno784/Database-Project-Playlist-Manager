@@ -2,18 +2,56 @@
 <html>
   <head>
     <title>Welcome to <%= siteData.siteName %></title>
-    <link rel="stylesheet"  type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
   </head>
   <body>
-    <h1>Welcome to <%= siteData.siteName %> </h1>
-    <p><a href="about">About </a></p>
-    <p><a href="api">Songs</a></p>
-    <p><a href="playlists">My playlists</a></p>
-    <% if (isLoggedIn) { %>
-      <p><a href="users/logout">Logout</a></p>
-    <% } else { %>
-      <p><a href="users/register">Register with us</a></p>
-      <p><a href="users/login">Login</a></p>
-    <% } %>
+    <h1>Welcome to <%= siteData.siteName %></h1>
+    
+    <div class="card-container">
+      <!-- About Card -->
+      <div class="card">
+        <h3>About</h3>
+        <p>Learn more about us and our journey.</p>
+        <a href="about" class="button">Read More</a>
+      </div>
+
+      <!-- Songs Card -->
+      <div class="card">
+        <h3>Songs</h3>
+        <p>Explore the collection of songs available on our platform.</p>
+        <a href="api" class="button">Explore Songs</a>
+      </div>
+
+      <!-- Playlists Card -->
+      <div class="card">
+        <h3>My Playlists</h3>
+        <p>View and manage your personal playlists here.</p>
+        <a href="playlists" class="button">Manage Playlists</a>
+      </div>
+
+      <% if (isLoggedIn) { %>
+        <!-- Logout Card -->
+        <div class="card">
+          <h3>Logout</h3>
+          <p>Sign out of your account securely.</p>
+          <a href="users/logout" class="button">Logout</a>
+        </div>
+      <% } else { %>
+        <!-- Register Card -->
+        <div class="card">
+          <h3>Register</h3>
+          <p>Create an account with us to unlock more features.</p>
+          <a href="users/register" class="button">Register</a>
+        </div>
+
+        <!-- Login Card -->
+        <div class="card">
+          <h3>Login</h3>
+          <p>Access your account and enjoy personalized features.</p>
+          <a href="users/login" class="button">Login</a>
+        </div>
+      <% } %>
+    </div>
   </body>
 </html>

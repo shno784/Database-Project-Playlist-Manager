@@ -6,13 +6,13 @@ body {
 
 h1 {
   font-size: 24px;
-  color: #a29bfe; 
+  color: #bb86fc; 
   text-align: center;
 }
 
 h2 {
   font-size: 20px;
-  color: #6c5ce7; 
+  color: #bb86fc; 
 }
 
 p, li {
@@ -57,8 +57,8 @@ a:active {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: #6c5ce7;
-  color: white;
+  background-color: #bb86fc;
+  color: #2e2c2c;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -100,8 +100,8 @@ button[type="submit"] {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
-    background-color: #6c5ce7; 
-    color: #ffffff; 
+    background-color: #bb86fc; 
+    color: #2e2c2c; 
     cursor: pointer;
     transition: background-color 0.3s ease;
   }

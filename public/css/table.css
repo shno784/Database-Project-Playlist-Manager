@@ -18,7 +18,7 @@ td {
 
 /* Header Row Styles */
 th {
-  background-color: #6c5ce7; /* Rich purple for header */
+  background-color: #bb86fc; /* Rich purple for header */
   color: #ffffff; /* White text */
   font-size: 16px;
   text-transform: uppercase;
@@ -66,8 +66,8 @@ audio::-webkit-media-controls-panel {
 }
 
 button {
-  background-color: #6c5ce7; /* Purple button */
-  color: #ffffff; /* White text */
+  background-color: #bb86fc; /* Purple button */
+  color: #2e2c2c; /* White text */
   padding: 6px 12px;
   border: none;
   border-radius: 5px;
@@ -81,8 +81,8 @@ button:hover {
 
 /* Go Back Button Styling */
 button.go-back {
-  background-color: #8e44ad; /* Purple-gray */
-  color: #ffffff; /* White text */
+  background-color: #bb86fc; /* Purple-gray */
+  color: #2e2c2c; /* White text */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -158,8 +158,8 @@ button[type="submit"] {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
-  background-color: #6c5ce7; /* Purple button */
-  color: #ffffff; /* White text */
+  background-color: #bb86fc; /* Purple button */
+  color: #2e2c2c; /* White text */
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
